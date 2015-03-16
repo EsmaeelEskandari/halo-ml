@@ -28,4 +28,10 @@ Add the following entry in /etc/fstab so that the drive is automounted on reboot
 	
     /dev/xvde1 /opt/data           ext4    defaults        0       2
     
+
+Mount the devices 
+
+	mount -a
+	
 The drive is now available at `/opt/data`
+	
