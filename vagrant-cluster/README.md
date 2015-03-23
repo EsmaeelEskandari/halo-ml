@@ -41,7 +41,7 @@ and update the following section
 	sl_username: "SL***"
 	sl_api_key: "******************"
 	sl_ssh_keys: "halo_control"
-	sl_private_key_path: "/root/.ssh/halo-control.pub"
+	sl_private_key_path: "/root/.ssh/halo-control"
 
 Review and edit rest of the file to define the cluster. Note that the total number of instances spun up will be one greater than `num_workers` since one instance will be a master node.
 
