@@ -18,10 +18,8 @@ object SimplePCA {
       System.exit(1)
     }
 
-    val logFile = "/root/spark/README.md"
     val conf = new SparkConf().setAppName("Simple PCA")
     val sc = new SparkContext(conf)
-    val logData = sc.textFile(logFile, 2).cache()
 
     // load and parse the data
     val rows = sc.textFile(args(0)).map { line =>
@@ -44,7 +42,7 @@ object SimplePCA {
     // project the rows to the linear space spanned by the top 10 principal components
     val projected: RowMatrix = mat.multiply(pc)
 
-    println("Result: " + projected)
+    println("Result: " + projected.toString())
 
     sc.stop()
 
