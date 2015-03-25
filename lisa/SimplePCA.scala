@@ -41,8 +41,14 @@ object SimplePCA {
 
     // project the rows to the linear space spanned by the top 10 principal components
     val projected: RowMatrix = mat.multiply(pc)
-
+    
+    println("Number of rows after PCA: " + projected.numRows())
+    println("Number of columns after PCA: " + projected.numCols())
+    
     println("Result: " + projected.toString())
+
+    // print the first row of the matrix
+    println("First row: " + projected.rows.first)
 
     sc.stop()
 
