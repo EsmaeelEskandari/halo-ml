@@ -1,6 +1,8 @@
 ##Step 1 - Software installation
 
-Create a master control instance where you will have vagrant and ansible installedd. This instance will be used to create, launch, manage and destroy your cluster. We will install Vagrant and Ansible on this machine. Alternatively, you could use your laptop or any other instance as your control instance, but then you will have to ensure rest of the installs from Step 1 are properly set up on your machine
+Create a master control instance where you will have vagrant and ansible installed. This instance will be used to create, launch, manage and destroy your cluster. We will install Vagrant and Ansible on this machine.
+
+Alternatively, you could use your laptop or any other instance as your control instance, but then you will have to ensure rest of the installs from Step 1 are properly set up on your machine
 
 Create a new Instance on Softlayer with
 
@@ -8,7 +10,7 @@ Create a new Instance on Softlayer with
 -	1 GB RAM
 -	Ubuntu 64 bit minimal install
 
-Run
+SSH to the machine and then run
 
 	cd
 	apt-get -y install git
@@ -25,7 +27,8 @@ Run
 	less ~/.ssh/halo-control.pub
 
 Copy the contents of the file and then go to https://control.softlayer.com/devices/sshkeys Click "Add" and paste the content to the "Key Contents" field and set the label to `halo_control` and click "Add". 
-If you had already done this once, or if you want to reuse an existing key, then copy the private key to `~/.ssh/` and adjust the names in step 3 accordingly
+
+If you had already done this once, or if you want to reuse an existing key, then copy the private key to `~/.ssh/` and adjust the names in step 3 accordingly.
 
 
 ## Step 3 - Configure the cluster
@@ -41,9 +44,9 @@ and update the following section
 	sl_username: "SL***"
 	sl_api_key: "******************"
 	sl_ssh_keys: "halo_control"
-	sl_private_key_path: "/root/.ssh/halo-control.pub"
+	sl_private_key_path: "/root/.ssh/halo-control"
 
-Review and edit rest of the file to define the cluster. Note that the total number of instances spun up will be one greater than `num_workers` since one instance will be a master node.
+Review and edit rest of the file to define your cluster. Note that the total number of instances spun up will be one greater than `num_workers` since the cluster needs a master node in addition to the worker nodes.
 
 ##Step 4 - Use the cluster
 
