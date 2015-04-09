@@ -7,14 +7,18 @@ import numpy as np
 import json
 
 input_file = sys.argv[1]
-output_file = input_file[:-17]+'_importances.json'
+output_file = input_file[6:-18]+'_importances.json'
 
-conf = (SparkConf()
-.setMaster("local[*]")
-.setAppName("Feature Importance")
-.set("spark.executor.memory", "3g"))
-sc = SparkContext(conf = conf) 
-
+def getSparkContext():
+    """
+    Gets the Spark Context
+    """
+    conf = (SparkConf()
+         .setMaster('local[*]')
+	 .setAppName("Feature Importance") # Name of App
+         .set("spark.executor.memory", "2g")) # Set 1 gig of memory
+    sc = SparkContext(conf = conf) 
+    return sc
 ### Preprocessing Function
 def preprocess (hlist_filename):
 	### Import data
@@ -63,30 +67,28 @@ def train(data):
 def finish(model):
 	attributes = model.feature_importances_
 	return attributes
+def main():
+	###Loading data from sources
+	data = [preprocess(input_file)]
 
-###Loading data from sources
-data = [preprocess(input_file)]
-#print data
+	#get spark context
+	sc = getSparkContext()
 
-###Parallelize compute
-forest = sc.parallelize(data).map(train).map(finish).collect()
-good_columns = extract(input_file)
-
-feature_weights = np.ravel(forest[0])
-#print type(feature_weights)
-#print feature_weights
-
-sorted_indexes = np.argsort(feature_weights)[::-1]
-#print type(sorted_indexes)
-#print sorted_indexes
-
-###Output the importance weights
-sorted_features=good_columns[sorted_indexes]
-sorted_feature_weights=feature_weights[sorted_indexes]
-
-zipped_vals=zip(sorted_features,sorted_feature_weights)
-
-print zipped_vals
-
-with open(output_file,'w') as f:
-	f.write(json.dumps(zipped_vals))
+	###Parallelize compute
+	forest = sc.parallelize(data)
+	map_reduce=forest.map(train).map(finish).collect()
+	good_columns = extract(input_file)
+	
+	print good_columns
+	### Calculate feature weights
+	feature_weights = np.ravel(map_reduce[0])
+	sorted_indexes=np.argsort(feature_weights)[::-1]
+	sorted_features=good_columns[sorted_indexes]
+	sorted_feature_weights=feature_weights[sorted_indexes]
+	
+	zipped_vals=zip(sorted_features,sorted_feature_weights)
+	print zipped_vals
+	with open(output_file,'w') as f:
+		f.write(json.dumps(zipped_vals))
+if __name__=='__main__':
+	main()
