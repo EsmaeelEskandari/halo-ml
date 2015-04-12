@@ -14,9 +14,11 @@ def getSparkContext():
     Gets the Spark Context
     """
     conf = (SparkConf()
-         .setMaster('local[*]')
+         .setMaster('spark://master:7077')
 	 .setAppName("Feature Importance") # Name of App
-         .set("spark.executor.memory", "2g")) # Set 1 gig of memory
+	 .set('spark.akka.frameSize',"50")
+	 .set("spark.executor.memory", "2g")) # Set 1 gig of memory
+    	
     sc = SparkContext(conf = conf) 
     return sc
 ### Preprocessing Function
@@ -69,14 +71,17 @@ def finish(model):
 	return attributes
 def main():
 	###Loading data from sources
+	print 'before  preprocess'
 	data = [preprocess(input_file)]
-
+	print 'after preprocess'
 	#get spark context
 	sc = getSparkContext()
-
+	print 'before parallelize'
 	###Parallelize compute
 	forest = sc.parallelize(data)
+	print 'after parallelize'
 	map_reduce=forest.map(train).map(finish).collect()
+	print 'ml training'
 	good_columns = extract(input_file)
 	
 	print good_columns
