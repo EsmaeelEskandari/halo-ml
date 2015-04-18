@@ -8,6 +8,10 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.linalg.distributed.RowMatrix
 import org.apache.spark.mllib.util.MLUtils
 import org.apache.spark.mllib.stat.Statistics
+import org.apache.commons.io.FileUtils
+import java.io.File
+import java.io.FileWriter
+import java.io.BufferedWriter
 
 // http://spark.apache.org/docs/latest/api/python/pyspark.mllib.html#module-pyspark.mllib.stat
 // https://spark.apache.org/docs/latest/mllib-statistics.html
@@ -29,23 +33,28 @@ object ckCorrelations {
     }
 
 
-    val data = rows
-    val correlationMatrix = Statistics.corr(data, "pearson")
-    print(correlationMatrix.toString())
-
-
-    //val seriesX: RDD[Double] = ... // a series
-    //val seriesY: RDD[Double] = ... // must have the same number of partitions and cardinality as seriesX
-
-    // compute the correlation using Pearson's method. Enter "spearman" for Spearman's method. If a
-    // method is not specified, Pearson's method will be used by default.
-    //val correlation: Double = Statistics.corr(seriesX, seriesY, "pearson")
-
     //val data: RDD[Vector] = ... // note that each Vector is a row and not a column
+    val data = rows
+    // compute the correlation using Pearson's method
+    // note: correlationMatrix is org.apache.spark.mllib.linalg.Matrix
+    val correlationMatrix = Statistics.corr(data, "pearson")
+    println("Just printing out the correlationMatrix using println")
+    println(correlationMatrix)
 
-    // calculate the correlation matrix using Pearson's method. Use "spearman" for Spearman's method.
-    // If a method is not specified, Pearson's method will be used by default.
-    //val correlMatrix: Matrix = Statistics.corr(data, "pearson")
+    // writing to a file
+    val resultFile = new java.io.File("/opt/data/correlation-results.txt")
+    val output = new BufferedWriter(new FileWriter(resultFile))
+    // converting to an array
+    val resultArray = correlationMatrix.toArray
+    println("Printing each value of the correlationMatrix.toArray")
+    // print all the array elements
+    for ( x <- resultArray) {
+       println(x)
+       output.write(x.toString())
+    }
+
+    //output.write(correlationMatrix.toString())
+    output.close
 
     sc.stop()
 
