@@ -59,29 +59,32 @@ object decision_tree{
    * */
 
   println("Model Depth")
-  println(model.depth)
+  kprintln(model.depth)
   println("Number of Nodes")
   println(model.numNodes)
-  println("Top Node")
-  println(model.topNode)
-  println("Top Node Stats")
-  println(model.topNode.stats)
-  println("Just Gain")
-  println(model.topNode.stats.get.gain)
-  println("Left Node")
-  println(model.topNode.leftNode)
-  println("Left Node Gain")
-  println(model.topNode.leftNode.get.stats.get.gain)
-  println("Right Node")
-  println(model.topNode.rightNode)
-  println("Right Node Gain")
-  println(model.topNode.rightNode.get.stats.get.gain)
-  println("Entire Model with toString")
-  println(model.toString)
-  
-  println("The Top Nodes Left Grandchild Node")
-  println(model.topNode.leftNode.get.leftNode)
-  
+
+
+  var arr = Array.fill[Double](47)(0)  // how many features do we have? 46
+  def recPrint(node: Node): Unit = {
+    println(node.id)
+    if (!node.isLeaf) {
+      var gain = node.stats.get.gain
+      var feature = node.split.get.feature
+      arr(feature) += gain
+      node.leftNode match {
+        case Some(value) => recPrint(value)
+        case None => null
+      }
+      node.rightNode match{
+        case Some(value) => recPrint(value)
+        case None => null
+      }
+    }
+  }
+  recPrint(model.topNode);
+  println("Feature Importance")
+  println(arr.deep);
+
   //println(model.toDebugString)
 
   //val numTrees = 5
