@@ -64,8 +64,24 @@ object decision_tree{
   println(model.numNodes)
   println("Top Node")
   println(model.topNode)
+  println("Top Node Stats")
+  println(model.topNode.stats)
+  println("Just Gain")
+  println(model.topNode.stats.get.gain)
+  println("Left Node")
+  println(model.topNode.leftNode)
+  println("Left Node Gain")
+  println(model.topNode.leftNode.get.stats.get.gain)
+  println("Right Node")
+  println(model.topNode.rightNode)
+  println("Right Node Gain")
+  println(model.topNode.rightNode.get.stats.get.gain)
   println("Entire Model with toString")
   println(model.toString)
+  
+  println("The Top Nodes Left Grandchild Node")
+  println(model.topNode.leftNode.get.leftNode)
+  
   //println(model.toDebugString)
 
   //val numTrees = 5
