@@ -1,0 +1,51 @@
+10 Gig file, 2 Nodes, 4 Cores, 8 Gig
+3 minutes
+=====================================
+About to start CorrelationMatrix data load
+Number of rows 15631968
+Number of features 40
+Starting...0, 1 - 07-03-07
+Completed...0, 1 - 07-06-09 in 181691ms
+Starting...0, 2 - 07-06-09
+Completed...0, 2 - 07-09-09 in 179615ms
+Starting...0, 3 - 07-09-09
+Completed...0, 3 - 07-12-08 in 179336ms
+Starting...0, 4 - 07-12-08
+Completed...0, 4 - 07-15-08 in 179644ms
+Starting...0, 5 - 07-15-08
+
+10 Gig file, 4 Nodes, 12 Cores, 32 Gig
+Mem usage 10-12GB -36 seconds
+======================================
+About to start CorrelationMatrix data load
+Number of rows 15631968
+Number of features 40
+Starting...0, 1 - 09-12-02
+Completed...0, 1 - 09-12-39 in 37050ms
+Starting...0, 2 - 09-12-39
+Completed...0, 2 - 09-13-16 in 36428ms
+Starting...0, 3 - 09-13-16
+Completed...0, 3 - 09-13-52 in 35659ms
+Starting...0, 4 - 09-13-52
+Completed...0, 4 - 09-14-28 in 36162ms
+Starting...0, 5 - 09-14-28
+Completed...0, 5 - 09-15-04 in 36050ms
+Starting...0, 6 - 09-15-04
+Completed...0, 6 - 09-15-41 in 37199ms
+Starting...0, 7 - 09-15-41
+Completed...0, 7 - 09-16-17 in 36261ms
+Starting...0, 8 - 09-16-17
+Completed...0, 8 - 09-16-53 in 36184ms
+Starting...0, 9 - 09-16-53
+Completed...0, 9 - 09-17-30 in 36398ms
+Starting...0, 10 - 09-17-30
+Completed...0, 10 - 09-18-06 in 36108ms
+Starting...0, 11 - 09-18-06
+Completed...0, 11 - 09-18-42 in 36105ms
+Starting...0, 12 - 09-18-42
+Completed...0, 12 - 09-19-18 in 36388ms
+Starting...0, 13 - 09-19-18
+Completed...0, 13 - 09-19-55 in 36239ms
+Starting...0, 14 - 09-19-55
+Completed...0, 14 - 09-20-32 in 36876ms
+Starting...0, 15 - 09-20-32
