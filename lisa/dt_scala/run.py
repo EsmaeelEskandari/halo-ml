@@ -1,4 +1,5 @@
 
+import json
 import subprocess
 import time
 
@@ -182,6 +183,8 @@ file_names = [
 '/preprocessed_hlists/hlist_0.99730_preprocessed.list',
 ]
 
+file_names = file_names[:3]
+
 times = []
 failed = []
 for f in file_names:
@@ -195,17 +198,13 @@ for f in file_names:
 	times.append(stopped - started)
 
 
-print "TIMES"
-print zip(file_names, times)
-print "FAILED: "
-print failed
+        with open('times.txt', 'w') as tf:
+            tf.write('timings\n')
+            tf.write(json.dumps(zip(file_names, times)))
+            tf.write('\n')
+            tf.write('failures\n')
+            tf.write(json.dumps(failed))
+            tf.write('\n')
 
-import json
 
-with open('times.txt', 'w') as tf:
-    tf.write('timings\n')
-    tf.write(json.dumps(zip(file_names, times)))
-    tf.write('\n')
-    tf.write('failures\n')
-    tf.write(json.dumps(failed))
-    tf.write('\n')
+
