@@ -3,3 +3,7 @@ vagrant-cluster/ansible.log
 *list
 *.gz
 *.pyc
+.history
+.log
+.idea*
+*.DS_Store*

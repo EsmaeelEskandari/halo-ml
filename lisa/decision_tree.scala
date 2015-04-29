@@ -17,10 +17,13 @@ import java.io.BufferedWriter
 object decision_tree{
   def main(args: Array[String]) {
 
+    var filename = args(0);
+    println(filename)
     val conf = new SparkConf().setAppName("Decision Tree Feature Importance")
     val sc = new SparkContext(conf)
 
-    val rdd  = sc.textFile("file:///opt/spark/no_header.list")
+    val rdd  = sc.textFile("file:///" + filename)
+    //rdd = sc.parallelize()
     /// Maps file to Doubles vector
     val data = rdd.map{ line =>
         // if val can't be cast to Double, put 0 in its place
@@ -59,14 +62,13 @@ object decision_tree{
    * */
 
   println("Model Depth")
-  kprintln(model.depth)
+  println(model.depth)
   println("Number of Nodes")
   println(model.numNodes)
 
 
   var arr = Array.fill[Double](47)(0)  // how many features do we have? 46
   def recPrint(node: Node): Unit = {
-    println(node.id)
     if (!node.isLeaf) {
       var gain = node.stats.get.gain
       var feature = node.split.get.feature
