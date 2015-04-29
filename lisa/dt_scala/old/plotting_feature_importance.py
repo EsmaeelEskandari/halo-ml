@@ -33,10 +33,9 @@ for file_name in onlyfiles:
 df = pd.DataFrame(np.array(values), index=range(0,len(onlyfiles)), columns=columns)
 series=df.mean()
 series=series.order()
-
-sorted_indexes=series.index[::-1][0:3]
+sorted_indexes=series.index[::-1][0:10]
 print sorted_indexes
+print series[::-1][0:10]
 for index in sorted_indexes:
 	plt.plot(df[index], linewidth=3)
-print 'about to show'
 plt.show()
