@@ -28,7 +28,6 @@ object decision_tree{
     var rdd  = sc.textFile("hdfs:///" + filename)
     var header = rdd.first()
     rdd = rdd.filter(x => x != header)
-    //rdd = sc.parallelize()
     /// Maps file to Doubles vector
     val data = rdd.map{ line =>
         // if val can't be cast to Double, put 0 in its place
@@ -56,15 +55,6 @@ object decision_tree{
   // Train regression tree 
   val model = DecisionTree.trainRegressor(data, categoricalFeaturesInfo, impurity,
       maxDepth, maxBins)
-  /*To FIX: Now that we have trained the model we need to get the information gain info from every node
-   * Below I print the info for the root node model.topNode, and we can see the info for its children with
-   * model.topNode.rightNode and model.topNode.leftNode. But I am unsure how to capture the information of any of the
-   * children because it turns into an Option objects from a Node object
-   * For each node we would like to return the split information which includes the column of the feature it split on
-   * as well as the stats information which is the gain and impurity of the node as well as information about its
-   * children. We can calculate the feature importance using the impurity of the node, the impurity of it's children, and the feature that node split on 
-   * (the column of the feature)
-   * */
 
   println("Model Depth")
   println(model.depth)
@@ -72,8 +62,9 @@ object decision_tree{
   println(model.numNodes)
 
 
-  var arr = Array.fill[Double](47)(0)  // how many features do we have? 46
-  def recPrint(node: Node): Unit = {
+  // extracts the feature importance from the subtree at node
+  var arr = Array.fill[Double](47)(0)  // 47 features
+  def extractFeatureImpotance(node: Node): Unit = {
     if (!node.isLeaf) {
       var gain = node.stats.get.gain
       var feature = node.split.get.feature
@@ -88,7 +79,7 @@ object decision_tree{
       }
     }
   }
-  recPrint(model.topNode);
+  extractFeatureImpotance(model.topNode);
   println("Feature Importance")
   println(arr.deep);
 
@@ -97,15 +88,11 @@ object decision_tree{
   pw.write(arr.mkString(", "))
   pw.close
   
-  //println(model.toDebugString)
-
   //val numTrees = 5
   //val featureSubsetStrategy = "auto"
 
   //val rfModel = RandomForest.trainRegressor(data, categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins)
   //println("Random Forest")
   //println(rfModel.toString) 
-  //println(rfModel.totalNumNodes)
-  //println(rfModel.toDebugString)
   }
 }
