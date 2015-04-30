@@ -6,3 +6,4 @@ This is where we figured out how to to extract feature importance from the data 
 2. **src/main/scala/decision_tree.scala**: the file that created the tree and extracted feature importance
 3. **run.py**: the python script we used to run the decision tree on all the timesteps.
 4. **run1, run2, run3**: the results from 3 runs of the code (only run3 has timing data)
+5. **plotting_feature_importance**: a python script to graph the feature importance over each timestep
