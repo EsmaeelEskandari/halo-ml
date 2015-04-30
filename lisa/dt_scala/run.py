@@ -183,8 +183,6 @@ file_names = [
 '/preprocessed_hlists/hlist_0.99730_preprocessed.list',
 ]
 
-file_names = file_names[:3]
-
 times = []
 failed = []
 for f in file_names:
