@@ -64,7 +64,7 @@ object decision_tree{
 
   // extracts the feature importance from the subtree at node
   var arr = Array.fill[Double](47)(0)  // 47 features
-  def extractFeatureImpotance(node: Node): Unit = {
+  def extractFeatureImportance(node: Node): Unit = {
     if (!node.isLeaf) {
       var gain = node.stats.get.gain
       var feature = node.split.get.feature
@@ -79,7 +79,7 @@ object decision_tree{
       }
     }
   }
-  extractFeatureImpotance(model.topNode);
+  extractFeatureImportance(model.topNode);
   println("Feature Importance")
   println(arr.deep);
 
