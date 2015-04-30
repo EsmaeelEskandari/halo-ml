@@ -17,15 +17,16 @@ indexes.extend(range(34,44))
 remove_columns=[columns[index] for index in indexes]
 
 
+run = 'run1'
 for column in remove_columns:
 	columns.remove(column)
 for column in range(0,len(columns)):
 	columns[column]=columns[column][:-4]
-onlyfiles = [f for f in listdir(curdir) if isfile(join(curdir,f))]
+onlyfiles = [f for f in listdir(join(curdir, run)) if isfile(join(curdir,run,f))]
 onlyfiles = [f for f in onlyfiles if f.endswith('_preprocessed-features.txt')]
 values=[]
 for file_name in onlyfiles:
-	f=open(file_name,'r')
+	f=open(join(curdir,run,file_name),'r')
 	timestep=f.read().replace(',','').split()
 	timestep=[float(step) for step in timestep]
 	values.append(timestep)
