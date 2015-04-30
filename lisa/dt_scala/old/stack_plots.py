@@ -2,8 +2,9 @@ from os import listdir, curdir
 from os.path import isfile, join
 import pandas as pd
 import numpy as np
+import matplotlib
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 columns='scale(0) id(1) desc_scale(2) num_prog(4) phantom(8) sam_mvir(9) mvir(10) rvir(11) \
 rs(12) vrms(13) mmp?(14) scale_of_last_MM(15) vmax(16) x(17) y(18) z(19) vx(20) vy(21) vz(22)\
  Jx(23) Jy(24) Jz(25) Spin(26) Orig_halo_ID(30) Rs_Klypin(34) Mvir_all(35) M200b(36) M200c(37)\
@@ -22,36 +23,46 @@ for column in remove_columns:
 	columns.remove(column)
 for column in range(0,len(columns)):
 	columns[column]=columns[column][:-4]
-onlyfiles = [f for f in listdir(curdir) if isfile(join(curdir,f))]
-onlyfiles = [f for f in onlyfiles if f.endswith('_preprocessed-features.txt')]
+onlyfiles = [ f for f in listdir(curdir) if isfile(join(curdir,f)) and str(f)[-3:]=='txt']
 
-scales=[float('0.'+scale[0:5]) for scale in onlyfiles]
 values=[]
 for file_name in onlyfiles:
 	f=open(file_name,'r')
 	timestep=f.read().replace(',','').split()
-	timestep=[float(step) for step in timestep]
-	values.append(timestep)
+	timestep_list=[float(step) for step in timestep]
+	portionstep=[float(step)/sum(timestep_list) for step in timestep]
+	values.append(portionstep)
 
 df = pd.DataFrame(np.array(values), index=range(0,len(onlyfiles)), columns=columns)
-series=df.mean()
+series=df.mean(axis=0)
 series=series.order()
-sorted_indexes=series.index[::-1][12:15]
-sorted_list=list(sorted_indexes)
-# print series[::-1][0:10]
-color=['r','g','b']
-count=0
-for index in sorted_indexes:
-	print sorted_list[count]
-	plt.stackplot(scales,df[index],linewidth=3,label=sorted_list[count],colors=color[count])
-	count+=1
 
-p1 = Rectangle((0, 0), 1, 1, fc="red")
-p2 = Rectangle((0, 0), 1, 1, fc="green")
-p3 = Rectangle((0, 0), 1, 1, fc="blue")
+sorted_indexes=series.index[::-1][0:10]
 
-plt.legend([p1, p2,p3], [sorted_list[0],sorted_list[1],sorted_list[2]])
-plt.xlabel('Scale Factor')
-plt.ylabel('Feature Importance')
+# top_columns = []
+# for index in sorted_indexes:
+# 	if index not in ['x','y','z','vx','vy','vz','Jx','Jy','Jz']:
+# 		top_columns.append(index)
+
+# df_top = df[top_columns]
+# df_top['rest'] = 1 - df_top.sum(axis=1,numeric_only=True,ignore_index=True) 
+# print df_top
+# print df_top.values
+
+y = np.transpose(df.values)
+x = np.arange(len(onlyfiles))
+
+print y.shape
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+ax.stackplot(x, y)
+ax.set_title('100 % stacked area chart')
+ax.set_ylabel('Percent (%)')
+ax.margins(0, 0) # Set margins to avoid "whitespace"
+
+
 
 plt.show()
+# plt.savefig('plot.png')

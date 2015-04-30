@@ -36,22 +36,33 @@ for file_name in onlyfiles:
 df = pd.DataFrame(np.array(values), index=range(0,len(onlyfiles)), columns=columns)
 series=df.mean()
 series=series.order()
-sorted_indexes=series.index[::-1][12:15]
-sorted_list=list(sorted_indexes)
-# print series[::-1][0:10]
-color=['r','g','b']
-count=0
-for index in sorted_indexes:
-	print sorted_list[count]
-	plt.stackplot(scales,df[index],linewidth=3,label=sorted_list[count],colors=color[count])
-	count+=1
-
-p1 = Rectangle((0, 0), 1, 1, fc="red")
-p2 = Rectangle((0, 0), 1, 1, fc="green")
-p3 = Rectangle((0, 0), 1, 1, fc="blue")
-
-plt.legend([p1, p2,p3], [sorted_list[0],sorted_list[1],sorted_list[2]])
-plt.xlabel('Scale Factor')
-plt.ylabel('Feature Importance')
-
+print series
+sorted_indexes=series.index[::-1][0:20]
+series_list=series.values.tolist()[::-1][0:20]
+ind=np.arange(0,len(sorted_indexes))
+fig = plt.figure()
+ax = plt.subplot(111)
+ax.bar(ind,series_list)
+ax.set_xticks(np.arange(len(sorted_indexes)) + 0.35/2)
+ax.set_xticklabels(sorted_indexes, rotation=90)
+ax.set_ylabel('Average Feature Importance')
 plt.show()
+# sorted_list=list(sorted_indexes)
+# # print series[::-1][0:10]
+# color=['r','g','b']
+# count=0
+# for index in sorted_indexes:
+# 	print sorted_list[count]
+# 	plt.stackplot(scales,df[index],linewidth=3,label=sorted_list[count],colors=color[count])
+# 	count+=1
+
+# p1 = Rectangle((0, 0), 1, 1, fc="red")
+# p2 = Rectangle((0, 0), 1, 1, fc="green")
+# p3 = Rectangle((0, 0), 1, 1, fc="blue")
+
+# plt.legend([p1, p2,p3], [sorted_list[0],sorted_list[1],sorted_list[2]])
+# plt.xlabel('Scale Factor')
+# plt.ylabel('Feature Importance')
+
+# plt.show()
+plt.savefig('barplot_features.png')

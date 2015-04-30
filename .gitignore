@@ -2,6 +2,7 @@ vagrant-cluster/.vagrant/
 vagrant-cluster/ansible.log
 *list
 *.gz
+*png
 *.pyc
 .history
 .log
